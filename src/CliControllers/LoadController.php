@@ -2,6 +2,8 @@
 
 namespace Dbml\CliControllers;
 
+use \Dbml\Utilities;
+
 class LoadController extends BaseController {
 
     public function handle() {
@@ -17,6 +19,7 @@ class LoadController extends BaseController {
 
                 if (!empty($migration->before)) {
                     $this->setStatus($migration, 'before');
+                    Utilities::exec($this->app->parameters['migrations'].$migration->before);
                 }
 
                 $this->setStatus($migration, 'loading...');
@@ -24,6 +27,7 @@ class LoadController extends BaseController {
 
                 if (!empty($migration->after)) {
                     $this->setStatus($migration, 'after');
+                    Utilities::exec($this->app->parameters['migrations'].$migration->after);
                 }
 
                 $this->setStatus($migration, 'migrated');

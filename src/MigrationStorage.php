@@ -8,23 +8,22 @@ class MigrationStorage {
 
     public function __construct($options) {
         $this->path = $options['migrations'];
+        $this->file_extention = $options['migration-file-extention'];
     }
 
     public function getList() {
         $files = $this->getFileList($this->path);
         $migrations = array();
+        $file_extention = '.'.$this->file_extention;
         foreach ($files as $fullname) {
-            if (strtolower(strrchr($fullname, '.')) === '.sql') {
-                $migration = $this->parseSqlFileName($fullname, $files);
-                if ($migration) {
-                    if (isset($migrations[$migration->id])) {
-                        echo "Error: {$migration['fullname']} duplicated id: {$migration->id}\n";
-                        exit(1);
-                    }
-                    $migration->status = 'unknown';
-                    $migration->created = '---------- --:--:--';
-                    $migrations[$migration->id] = $migration;
+            $migration = $this->parseMigrationFileName($fullname, $files);
+            if ($migration) {
+                if (isset($migrations[$migration->id])) {
+                    throw new \Exception("{$migration['fullname']} duplicated id: {$migration->id}", 1);
                 }
+                $migration->status = 'unknown';
+                $migration->created = '---------- --:--:--';
+                $migrations[$migration->id] = $migration;
             }
         }
         ksort($migrations);
@@ -63,14 +62,17 @@ class MigrationStorage {
         return $files;
     }
 
-    public function parseSqlFileName($fullname, $files) {
+    public function parseMigrationFileName($fullname, $files) {
         $filename = basename($fullname);
-        if (!preg_match('/^(\d{4}-\d{2}-\d{2}-\d{3})(-.+)?\.sql$/i', $filename, $matches)) {
-            if (preg_match('/sql$/i', $filename)) {
-                echo "Error: {$fullname} does not match pattern yyyy-mm-dd-NNN-comment.sql\n";
-                exit(1);
-            }
+        $file_extention = preg_quote('.' . $this->file_extention);
+        if (!preg_match('/^(\d{4}-\d{2}-\d{2}-\d{3})(-.+)?'.$file_extention.'$/i', $filename, $matches)) {
             return false;
+        }
+
+        if (isset($matches[2])) {
+            if (strpos($matches[2], '-before') === 0 || strpos($matches[2], '-after') === 0) {
+                return false;
+            }
         }
 
         $id = $matches[1];
@@ -78,7 +80,7 @@ class MigrationStorage {
         $migration->fullname = $fullname;
         $migration->id = $id;
 
-        $base = preg_replace('/(\d{4}-\d{2}-\d{2}-\d{3})(-.+)?\.sql$/i', '\1', $fullname);
+        $base = preg_replace('/(\d{4}-\d{2}-\d{2}-\d{3})[^\/]+$/i', '\1', $fullname);;
         $migration->before = $this->find($base.'-before', $files);
         $migration->after = $this->find($base.'-after', $files);
 

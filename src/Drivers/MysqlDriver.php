@@ -32,7 +32,7 @@ class MysqlDriver implements DriverInterface {
     }
 
     public function delete($migration) {
-        $delete = 'DELETE FROM `'.$this->table.'` WHERE id=?';
+        $delete = 'DELETE FROM `'.$this->table.'` WHERE id=:id';
         $this->connection->sql($delete, array('id' => $migration->id));
         $migration->status = "deleted";
         return $this->connection->lastId();
@@ -111,6 +111,7 @@ class MysqlDriver implements DriverInterface {
             'create-database'   => null,
             'extra'             => '',
             'table'             => 'db_migrations',
+            'migration-file-extention' => 'sql',
         );
     }
 

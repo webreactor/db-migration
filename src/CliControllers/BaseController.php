@@ -66,9 +66,8 @@ class BaseController {
         $tracker_parameters = $this->getCliArguments($tracker_defaults);
 
         $parameters = array_merge($defaults, $tracker_defaults, $file_options, $cli_options, $tracker_parameters);
-        $this->app->setParameters($parameters);
-
         $parameters['migrations'] = realpath($parameters['migrations']).DIRECTORY_SEPARATOR;
+        $this->app->setParameters($parameters);
     }
 
     public function printParameters() {

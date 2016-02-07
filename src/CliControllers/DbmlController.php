@@ -49,7 +49,7 @@ class DbmlController extends BaseController {
     }
 
     public function welcome() {
-        echo "DBML - DataBase Migration scripts Loader\n\n";
+        echo "DBML - DataBase Migration scripts Loader version ".$this->app->parameters['app-version']."\n\n";
     }
 
 }

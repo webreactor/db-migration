@@ -9,6 +9,10 @@ class Application {
     protected $cache = array();
     public $parameters = array();
 
+    public function __construct() {
+        $this->parameters['app-version'] = '0.0.1';
+    }
+
     public function setParameters($parameters) {
         $this->parameters = array_merge($this->parameters, $parameters);
     }
