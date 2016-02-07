@@ -1,24 +1,53 @@
 DBML - DataBase Migration scripts Loader
 ========================================
 
-## Start using:
-
+## Start using
 * Create a folder at you repo for sql migration files
-* Name you sql files with pattern yyyy-mm-dd-nnn[-comment].sql.
+* Name you sql files with pattern `yyyy-mm-dd-nnn[-note].sql.`
+* Create settings file `db-migration.yml`
+* Check migrations state using `db-migration --list`
+* Load migrations using `db-migration --load`
+* If migration fails. After fix, run `db-migration --reset-locked`
 
-There two ways to pass parameters:
-* [commandline parameters](#Parameters)
-* `db-migration.yml` file at current folder
+## Migration files
+Example:
+```
+2016-01-25-001.sql
+2016-01-25-002.sql
+2016-01-26-001-votes.sql
+2016-01-27-001.sql
+```
+Pattern: `yyyy-mm-dd-nnn[-note].sql.`\
+`nnn` - unique number within a day.
 
-Name fo parameters at `.yml` and cli are the same.
+## Before and after scripts
 
-`.yml` file supports env varialbes using `$`. Put `$$` if you need to escape the symbol
+* Each migration file can have two associated executable files that will be executed before and after the migration.
+* Use patterns `yyyy-mm-dd-nnn-before.sh` and `yyyy-mm-dd-nnn-after.sh` to name files
+* Make a sure that files are executable
+* Before and after scripts run only once when the associated file is migrating
 
 Example:
+```
+2016-01-25-001.sql
+2016-01-25-002-before.sh
+2016-01-25-002.sql
+2016-01-25-002-after.sh
+2016-01-26-001-votes.sql
+2016-01-27-001.sql
+```
 
-Run `db-migrations --list`
+## Configuration
+There two ways to pass parameters:
+* [Commandline parameters](#Parameters)
+* `db-migration.yml` file at current folder
 
-with db-migration.yml
+Name fo parameters at `.yml` and cli are the same. \
+`.yml` file supports env varialbes using `$`. Put `$$` if you need to escape the symbol
+
+Example:\
+`db-migrations --list`
+with `db-migration.yml` at current folder:
 ```yml
 user: $MYSQL_USERNAME
 password: $MYSQL_PASSWORD
@@ -26,32 +55,24 @@ database: allication
 migrations: db-migrations
 create-database: true
 ```
- 
 
-
-Same using cli:
-`db-migrations --list --user="$MYSQL_USERNAME" --password="$MYSQL_PASSWORD" --database="allication" --migrations="db-migrations" --create-database="true"`
-
-
-
-* `db-migration --list` to see current state and check file naming
-* `db-migration --load` to load migrations
-
-nnn - unique number within a day.
-
-For example:
+Same result using cli arguments:
 ```
-2016-01-25-001.sql
-2016-01-25-002.sql
-2016-01-26-001.sql
-2016-01-27-001.sql
+db-migrations --list \
+    --user="$MYSQL_USERNAME" \
+    --password="$MYSQL_PASSWORD" \
+    --database="allication" \
+    --migrations="db-migrations" \
+    --create-database="true"
 ```
 
-If some scripts failed migration will be locked:
-* Fix you app
-* Run db-migration --reset-locked
-* Continue migration
-
+**If some scripts failed migration will be locked intil you reset state**\
+In case if some migration file failed
+* Check output of last `load`
+* Check what migration is failed `db-migration --list`
+* Fix you app and database
+* Run `db-migration --reset-locked`
+* Continue migration `db-migration --load`
 
 ## Parameters
 ```
