@@ -1,0 +1,13 @@
+{
+    "name": "DBML",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dbml\\": "src/",
+            "Reactor\\": "src/Reactor"
+        }
+    },
+    "require": {
+        "symfony/yaml": "3.0.1"
+    }
+}

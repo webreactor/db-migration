@@ -1,0 +1,5 @@
+/vendor/
+/tmp/
+db-migration
+*.phar
+/*-migrations/

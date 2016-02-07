@@ -1,0 +1,5 @@
+user: testuser
+password: testpass
+database: $USERNAME
+migrations: db-migrations
+create-database: true
