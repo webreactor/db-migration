@@ -37,7 +37,8 @@ Example:
 2016-01-26-001-votes.sql
 2016-01-27-001.sql
 ```
-Pattern: `yyyy-mm-dd-nnn[-note].sql.`\
+Pattern: `yyyy-mm-dd-nnn[-note].sql.`
+
 `nnn` - unique number within a day.
 
 ## Before and after scripts
@@ -58,14 +59,16 @@ Example:
 ```
 
 ## Configuration
-There two ways to pass parameters:
+There are two ways to pass parameters:
 * [Commandline parameters](#Parameters)
 * `db-migration.yml` file at current folder
 
-Name fo parameters at `.yml` and cli are the same. \
+Name fo parameters at `.yml` and cli are the same.
+
 `.yml` file supports env varialbes using `$`. Put `$$` if you need to escape the symbol
 
-Example:\
+Example:
+
 `db-migrations --list`
 with `db-migration.yml` at current folder:
 ```yml
