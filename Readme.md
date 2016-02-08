@@ -1,4 +1,4 @@
-DBML - DataBase Migration scripts Loader
+Database Migration Scripts Loader
 ========================================
 
 ## How to Install
