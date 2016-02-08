@@ -1,6 +1,26 @@
 DBML - DataBase Migration scripts Loader
 ========================================
 
+## How to Install
+
+Use precompiled:
+```bash
+curl -O https://github.com/webreactor/db-migration/releases/download/0.0.1/db-migration
+chmod a+x db-migration
+mv db-migration /url/local/bin/
+```
+Or build:
+```bash
+git clone https://github.com/webreactor/db-migration.git
+cd db-migration
+make install
+```
+
+For windows users:
+* Download precompiled
+* Create `db-migration.bat` file with `@php "%~dp0db-migration" %*`
+* Make both files available through PATH (copy to `C:\WINDOWS` for example)
+
 ## Start using
 * Create a folder at you repo for sql migration files
 * Name you sql files with pattern `yyyy-mm-dd-nnn[-note].sql.`
