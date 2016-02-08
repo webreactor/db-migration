@@ -40,33 +40,39 @@ class BaseController {
     }
 
     public function loadMigrationParameters() {
-        $defaults = array(
+        $base_config = array(
             'config'        => 'db-migration.yml',
-            'migrations'    => getcwd(),
+            'migrations'    => 'db-migrations',
             'driver'        => 'mysql',
         );
-        $cli_options = $this->getCliArguments($defaults);
+        $cli_options = $this->getCliArguments($base_config);
 
-        $config_file = $defaults['config'];
+        $config_file = $base_config['config'];
         if (isset($cli_options['config'])) {
             $config_file = $cli_options['config'];
         }
         
-        $config_file = getcwd().DIRECTORY_SEPARATOR.$config_file;
+        $config_file = $cli_options['config'] = realpath($config_file);
         
         $file_options = array();
         if (is_file($config_file)) {
             $file_options = Utilities::loadConfig($config_file);
-            chdir(dirname($config_file));
+            if (isset($file_options['migrations']) && !isset($cli_options['migrations'])) {
+                chdir(dirname($config_file));
+            }
         }
-        $parameters = array_merge($defaults, $file_options, $cli_options);
+        $parameters = array_merge($base_config, $file_options, $cli_options);
         $this->app->setParameters($parameters);
 
         $tracker_defaults = $this->app->getTrackerDefaults();
-        $tracker_parameters = $this->getCliArguments($tracker_defaults);
+        $tracker_cli_parameters = $this->getCliArguments($tracker_defaults);
 
-        $parameters = array_merge($defaults, $tracker_defaults, $file_options, $cli_options, $tracker_parameters);
-        $parameters['migrations'] = realpath($parameters['migrations']).DIRECTORY_SEPARATOR;
+        $parameters = array_merge($tracker_defaults, $parameters, $tracker_cli_parameters);
+        $real = realpath($parameters['migrations']);
+        if ($real === false) {
+            throw new \Exception("Cannot find migrations path '{$parameters['migrations']}'", 1);
+        }
+        $parameters['migrations'] = $real.DIRECTORY_SEPARATOR;
         $this->app->setParameters($parameters);
     }
 

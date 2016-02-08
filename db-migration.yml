@@ -1,5 +1,6 @@
-user: testuser
-password: testpass
-database: $USERNAME
+#example
+user: $MYSQL_USERNAME
+password: $MYSQL_PASSWORD
+database: test
 migrations: db-migrations
 create-database: true
