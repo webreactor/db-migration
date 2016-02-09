@@ -29,7 +29,7 @@ class InitController
         $yaml = $dumper->dump($parameters, 10, 0);
 
         if (file_put_contents($fullname, $yaml)) {
-            echo "Config YML file created\n";
+            echo "Config db-migration.yml created\n";
         }
     }
 }
