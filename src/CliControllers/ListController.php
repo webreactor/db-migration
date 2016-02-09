@@ -13,7 +13,7 @@ class ListController extends BaseController {
             $limit = intval($this->app->parameters['list']);
         }
 
-        $migrations = $this->app->getMergedMigrations($limit);
+        $migrations = $this->app->getAllMigrations($limit);
 
         foreach ($migrations as $migration) {
             $this->printMigration($migration);

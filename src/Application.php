@@ -49,7 +49,7 @@ class Application {
         return $this->cache['tracker'];
     }
 
-    public function getMergedMigrations($limit = null) {
+    public function getAllMigrations($limit = null) {
         if (0 === $limit) {
             return array();
         }
