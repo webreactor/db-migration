@@ -14,7 +14,7 @@ $options = array_merge($defaults, $options);
 @unlink($temp_file);
 
 $phar = new Phar($temp_file);
-$phar->buildFromDirectory(__dir__, '/^((?!\.git).)*$/');
+$phar->buildFromDirectory(__DIR__, '/^((?!\.git).)*$/');
 $defaultStub = $phar->createDefaultStub($options['cli'], $options['web']);
 $defaultStub = "#!/usr/bin/env php\n".$defaultStub;
 $phar->setStub($defaultStub);

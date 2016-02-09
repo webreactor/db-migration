@@ -6,10 +6,10 @@ class ResetLocksController extends BaseController {
 
     public function handle() {
         $this->initTracker();
-        $mirations = $this->app->getAllMigrations();
+        $migrations = $this->app->getAllMigrations();
         $tracker = $this->app->getTracker();
         $cnt = 0;
-        foreach ($mirations as $migration) {
+        foreach ($migrations as $migration) {
             if (!in_array($migration->status,array('new', 'migrated'))) {
                 $this->printMigration($migration);
                 $tracker->delete($migration);

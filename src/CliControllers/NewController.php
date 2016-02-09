@@ -6,9 +6,9 @@ class NewController extends BaseController {
 
     public function handle() {
         $this->initTracker();
-        $mirations = $this->app->getAllMigrations();
+        $migrations = $this->app->getAllMigrations();
 
-        foreach ($mirations as $migration) {
+        foreach ($migrations as $migration) {
             if ($migration->status == 'new') {
                 $this->printMigration($migration);
             }

@@ -3,8 +3,6 @@
 namespace Dbml;
 
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Dumper as YmlDumper;
 
 class Utilities {
 

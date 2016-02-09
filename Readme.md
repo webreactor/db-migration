@@ -7,7 +7,7 @@ Use precompiled:
 ```bash
 curl -O https://github.com/webreactor/db-migration/releases/download/0.0.1/db-migration
 chmod a+x db-migration
-mv db-migration /url/local/bin/
+mv db-migration /usr/local/bin/
 ```
 Or build:
 ```bash

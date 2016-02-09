@@ -2,7 +2,7 @@ BINARY=db-migration
 #=======================================================
 
 build: vendor
-	@php build-par.php --bin="$(BINARY)"
+	@php build-phar.php --bin="$(BINARY)"
 
 vendor:
 	composer install --no-dev
