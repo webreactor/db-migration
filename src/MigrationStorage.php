@@ -18,7 +18,7 @@ class MigrationStorage {
             $migration = $this->parseMigrationFileName($fullname, $files);
             if ($migration) {
                 if (isset($migrations[$migration->id])) {
-                    throw new \Exception("{$migration['fullname']} duplicated id: {$migration->id}", 1);
+                    throw new \Exception("{$migration->fullname} duplicated id: {$migration->id}", 1);
                 }
                 $migration->status = 'unknown';
                 $migration->created = '---------- --:--:--';

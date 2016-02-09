@@ -7,36 +7,57 @@ class CreateController
 {
     public function handle()
     {
+        $date   = date('Y-m-d');
+        $number = 1;
+
+        $last_migration = $this->getLastMigration();
+
+        if ($last_migration) {
+            if ($date == $last_migration['date']) {
+                $number += $last_migration['number'];
+            }
+        }
+
+        $migration_filename = sprintf(
+            '%s-%s',
+            $date,
+            str_pad($number, 3, '0', STR_PAD_LEFT)
+        );
+
+        if (false !== $this->app->parameters['create']) {
+            $migration_filename .= '-' . $this->app->parameters['create'];
+        }
+
+        $migration_filename .= '.' . $this->app->parameters['migration-file-extention'];
+
+        $migration_fullname = $this->app->parameters['migrations'] . $migration_filename;
+
+        if (false !== file_put_contents($migration_fullname, '')) {
+            echo "Created new empty migration file $migration_filename\n";
+        } else {
+            throw new \Exception('Can\'t create new migration file');
+        }
+    }
+
+    private function getLastMigration()
+    {
         $this->initTracker();
 
         $migrations =
             $this->app->getMigrations()
                 ->getList();
 
-        if (count($migrations)) {
-            $last_migration = end($migrations);
+        $last_migration = end($migrations);
 
-            $last_migration_id_arr = explode('-', $last_migration->id);
-
-            $id = str_pad($last_migration_id_arr[3] + 1, 3, '0', STR_PAD_LEFT);
-        } else {
-            $id = '001';
+        if (!$last_migration) {
+            return false;
         }
 
-        $new_migration_name = sprintf(
-            '%s-%s%s.%s',
-            date('Y-m-d'),
-            $id,
-            false === $this->app->parameters['create'] ? '' : '-' . $this->app->parameters['create'],
-            $this->app->parameters['migration-file-extention']
+        $tmp = explode('-', $last_migration->id);
+
+        return array(
+            'date'   => mb_substr($last_migration->id, 0, 10),
+            'number' => $tmp[3],
         );
-
-        $fullname = $this->app->parameters['migrations'] . $new_migration_name;
-
-        if (false !== file_put_contents($fullname, '')) {
-            echo "Created new empty migration file $new_migration_name\n";
-        } else {
-            echo "Error\n";
-        }
     }
 }

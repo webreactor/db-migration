@@ -3,7 +3,6 @@
 namespace Dbml\CliControllers;
 
 use \Dbml\Utilities;
-use Symfony\Component\Yaml\Dumper as YamlDumper;
 
 class BaseController {
     /**
@@ -82,13 +81,12 @@ class BaseController {
     }
 
     public function printParameters() {
-        $dumper = new YamlDumper();
         echo "Current parameters:\n";
         $parameters = $this->app->parameters;
         if (!empty($parameters['password'])) {
             $parameters['password'] = 'xxxxxx';
         }
-        echo $dumper->dump($parameters, 10, 2);
+        echo Utilities::dumpYAML($parameters, 10, 2);
         echo "\n";
     }
 

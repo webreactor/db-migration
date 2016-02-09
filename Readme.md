@@ -121,7 +121,7 @@ Migration Options:
   --migrations    Path to migration scripts
   --host          Default is localhost
   --port          Default is 3306
-  --unix_socket   Path to socket. has more priority that host
+  --unix_socket   Path to socket, has more priority than host
   --user
   --password
   --database          Database name
