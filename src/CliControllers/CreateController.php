@@ -21,7 +21,7 @@ class CreateController extends BaseController {
             str_pad($number, 3, '0', STR_PAD_LEFT)
         );
 
-        if (false !== $this->app->parameters['create']) {
+        if ($this->app->parameters['create'] !== false) {
             $migration_filename .= '-' . $this->app->parameters['create'];
         }
 
@@ -29,7 +29,7 @@ class CreateController extends BaseController {
 
         $migration_fullname = $this->app->parameters['migrations'] . $migration_filename;
 
-        if (false !== file_put_contents($migration_fullname, '')) {
+        if (file_put_contents($migration_fullname, '') !== false) {
             echo "Created new empty migration file $migration_filename\n";
         } else {
             throw new \Exception('Can\'t create new migration file');
