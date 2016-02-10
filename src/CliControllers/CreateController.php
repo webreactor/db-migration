@@ -11,7 +11,7 @@ class CreateController extends BaseController {
 
         if ($last_migration) {
             if ($date == $last_migration['date']) {
-                $number += $last_migration['number'];
+                $number = $last_migration['number'] + 1;
             }
         }
 
