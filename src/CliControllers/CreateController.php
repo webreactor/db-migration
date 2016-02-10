@@ -7,7 +7,7 @@ class CreateController extends BaseController {
         $date   = date('Y-m-d');
         $number = 1;
 
-        $last_migration = $this->getLastMigration();
+        $last_migration = $this->getLastMigrationParsedId();
 
         if ($last_migration) {
             if ($date == $last_migration['date']) {
@@ -36,7 +36,7 @@ class CreateController extends BaseController {
         }
     }
 
-    private function getLastMigration() {
+    private function getLastMigrationParsedId() {
         $this->initTracker();
 
         $migrations =
