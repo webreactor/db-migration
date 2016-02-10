@@ -2,17 +2,14 @@
 
 namespace Dbml\CliControllers;
 
-class InitController
-    extends BaseController
-{
-    public function handle()
-    {
+class InitController extends BaseController {
+    public function handle() {
         $filename = 'db-migration.yml';
 
         $source = __DIR__ . '/../../' . $filename;
         $dest   = getcwd() . '/' . $filename;
 
-        if (file_exists($dest)) {
+        if (is_file($dest)) {
             throw new \Exception('Config YML file already exists');
         }
 

@@ -2,11 +2,8 @@
 
 namespace Dbml\CliControllers;
 
-class CreateController
-    extends BaseController
-{
-    public function handle()
-    {
+class CreateController extends BaseController {
+    public function handle() {
         $date   = date('Y-m-d');
         $number = 1;
 
@@ -39,8 +36,7 @@ class CreateController
         }
     }
 
-    private function getLastMigration()
-    {
+    private function getLastMigration() {
         $this->initTracker();
 
         $migrations =
