@@ -60,7 +60,7 @@ Example:
 
 ## Configuration
 There are two ways to pass parameters:
-* [Commandline parameters](#Parameters)
+* [Command line parameters](#parameters)
 * `db-migration.yml` file at current folder
 
 Name fo parameters at `.yml` and cli are the same.
