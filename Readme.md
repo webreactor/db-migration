@@ -63,9 +63,9 @@ There are two ways to pass parameters:
 * [Command line parameters](#parameters)
 * `db-migration.yml` file at current folder
 
-Name fo parameters at `.yml` and cli are the same.
+Name for parameters at `.yml` and cli are the same.
 
-`.yml` file supports env varialbes using `$`. Put `$$` if you need to escape the symbol
+`.yml` file supports env variables using `$`. Put `$$` if you need to escape the symbol
 
 Example:
 
@@ -74,7 +74,7 @@ with `db-migration.yml` at current folder:
 ```yml
 user: $MYSQL_USERNAME
 password: $MYSQL_PASSWORD
-database: allication
+database: aplication
 migrations: db-migrations
 create-database: true
 ```
@@ -89,7 +89,7 @@ db-migrations --list \
     --create-database="true"
 ```
 
-**If some scripts failed migration will be locked intil you reset state**\
+**If some scripts failed, migration will be locked until you reset state**\
 In case if some migration file failed
 * Check output of last `load`
 * Check what migration is failed `db-migration --list`
@@ -100,7 +100,7 @@ In case if some migration file failed
 ## Parameters
 ```
 Usage:
-  dbml <command> [options] [migration options]
+  db-migration <command> [options] [migration options]
 
 Commands:
   --init          Create config YML file
@@ -108,7 +108,7 @@ Commands:
   --list          List all loaded and new migration files
   --list={limit}  List last {limit} loaded and new migration files
   --new           List of new migrations
-  --create={name} Create new empty migration file
+  --create={name} Create new empty migration file with name
   --reset={id}    Reset migration state
   --reset-locked  Reset all migration with state no new or migrated
   --help
@@ -127,7 +127,7 @@ Migration Options:
   --database          Database name
   --create-database   Creates db if not exists
   --table             Table name for migration state. Default is db-migrations
-  --extra             Extra parameters will bepassed to load a migration command
+  --extra             Extra parameters will be passed to load a migration command
 
 All options can be specified in YML file
 ```
