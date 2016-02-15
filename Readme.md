@@ -69,7 +69,7 @@ Name for parameters at `.yml` and cli are the same.
 
 Example:
 
-`db-migrations --list`
+`db-migration --list`
 with `db-migration.yml` at current folder:
 ```yml
 user: $MYSQL_USERNAME
@@ -81,7 +81,7 @@ create-database: true
 
 Same result using cli arguments:
 ```
-db-migrations --list \
+db-migration --list \
     --user="$MYSQL_USERNAME" \
     --password="$MYSQL_PASSWORD" \
     --database="allication" \
