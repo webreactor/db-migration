@@ -27,9 +27,11 @@ class DbmlController extends BaseController {
 
     public function getCommand() {
         $options = getopt('', array(
+            'init',
             'load',
-            'list',
+            'list::',
             'new',
+            'create::',
             'reset::',
             'reset-locks',
         ));

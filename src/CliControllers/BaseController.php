@@ -5,6 +5,10 @@ namespace Dbml\CliControllers;
 use \Dbml\Utilities;
 
 class BaseController {
+    /**
+     * @var \Dbml\Application
+     */
+    public $app;
 
     public function __construct($app) {
         $this->app = $app;
@@ -77,13 +81,12 @@ class BaseController {
     }
 
     public function printParameters() {
-        $dumper = new YmlDumper();
         echo "Current parameters:\n";
         $parameters = $this->app->parameters;
         if (!empty($parameters['password'])) {
             $parameters['password'] = 'xxxxxx';
         }
-        echo $dumper->dump($parameters, 10, 2);
+        echo Utilities::dumpYAML($parameters, 10, 2);
         echo "\n";
     }
 

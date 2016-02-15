@@ -14,12 +14,11 @@ class MigrationStorage {
     public function getList() {
         $files = $this->getFileList($this->path);
         $migrations = array();
-        $file_extention = '.'.$this->file_extention;
         foreach ($files as $fullname) {
             $migration = $this->parseMigrationFileName($fullname, $files);
             if ($migration) {
                 if (isset($migrations[$migration->id])) {
-                    throw new \Exception("{$migration['fullname']} duplicated id: {$migration->id}", 1);
+                    throw new \Exception("{$migration->fullname} duplicated id: {$migration->id}", 1);
                 }
                 $migration->status = 'unknown';
                 $migration->created = '---------- --:--:--';
@@ -31,7 +30,6 @@ class MigrationStorage {
     }
 
     public function getFileList($path) {
-        $path = trim($path, '/\\');
         $cut_prefix = strlen($this->path);
         $files = $this->getFileList_r($path);
         foreach ($files as $key => $fullname) {
@@ -42,7 +40,6 @@ class MigrationStorage {
 
     public function getFileList_r($path) {
         $files = array();
-        $path = trim($path, '/\\');
         if (!is_dir($path)) {
             echo "Warning: migrations path [$path] not found\n";
             return array();
@@ -62,6 +59,7 @@ class MigrationStorage {
         return $files;
     }
 
+
     public function parseMigrationFileName($fullname, $files) {
         $filename = basename($fullname);
         $file_extention = preg_quote('.' . $this->file_extention);
@@ -80,7 +78,7 @@ class MigrationStorage {
         $migration->fullname = $fullname;
         $migration->id = $id;
 
-        $base = preg_replace('/(\d{4}-\d{2}-\d{2}-\d{3})[^\/]+$/i', '\1', $fullname);;
+        $base = preg_replace('/(\d{4}-\d{2}-\d{2}-\d{3})[^\/]+$/i', '\1', $fullname);
         $migration->before = $this->find($base.'-before', $files);
         $migration->after = $this->find($base.'-after', $files);
 

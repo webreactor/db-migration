@@ -2,9 +2,8 @@
 
 namespace Dbml;
 
-use Dbml\Utilities;
-
 class Application {
+    private $app;
 
     protected $cache = array();
     public $parameters = array();
@@ -17,6 +16,9 @@ class Application {
         $this->parameters = array_merge($this->parameters, $parameters);
     }
 
+    /**
+     * @return MigrationStorage
+     */
     public function getMigrations() {
         if (isset($this->cache['migrations'])) {
             return $this->cache['migrations'];
@@ -29,6 +31,10 @@ class Application {
         return $this->getTracker()->getDefaults();
     }
 
+    /**
+     * @throws \Exception
+     * @return \Dbml\Drivers\DriverInterface
+     */
     public function getTracker() {
         if (isset($this->cache['tracker'])) {
             return $this->cache['tracker'];
@@ -43,7 +49,11 @@ class Application {
         return $this->cache['tracker'];
     }
 
-    public function getAllMigrations() {
+    public function getAllMigrations($limit = null) {
+        if (0 === $limit) {
+            return array();
+        }
+
         $tracker = $this->getTracker();
         $tracked_migrations = $tracker->getList();
 
@@ -66,6 +76,11 @@ class Application {
                 $merged[$id]->status = $new_flag;
             }
         }
+
+        if ($limit) {
+            $merged = array_reverse(array_slice($merged, -$limit, null, true));
+        }
+
         return $merged;
     }
 

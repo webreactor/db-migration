@@ -7,7 +7,7 @@ Use precompiled:
 ```bash
 curl -O https://github.com/webreactor/db-migration/releases/download/0.0.1/db-migration
 chmod a+x db-migration
-mv db-migration /url/local/bin/
+mv db-migration /usr/local/bin/
 ```
 Or build:
 ```bash
@@ -24,7 +24,7 @@ For windows users:
 ## Start using
 * Create a folder at you repo for sql migration files
 * Name you sql files with pattern `yyyy-mm-dd-nnn[-note].sql.`
-* Create settings file `db-migration.yml`
+* Create settings file `db-migration.yml` using `db-migration --init`
 * Check migrations state using `db-migration --list`
 * Load migrations using `db-migration --load`
 * If migration fails. After fix, run `db-migration --reset-locked`
@@ -103,9 +103,12 @@ Usage:
   dbml <command> [options] [migration options]
 
 Commands:
+  --init          Create config YML file
   --load          Load new migrations
-  --list          List on loaded and new migration files
+  --list          List all loaded and new migration files
+  --list={limit}  List last {limit} loaded and new migration files
   --new           List of new migrations
+  --create={name} Create new empty migration file
   --reset={id}    Reset migration state
   --reset-locked  Reset all migration with state no new or migrated
   --help
@@ -118,7 +121,7 @@ Migration Options:
   --migrations    Path to migration scripts
   --host          Default is localhost
   --port          Default is 3306
-  --unix_socket   Path to socket. has more priority that host
+  --unix_socket   Path to socket, has more priority than host
   --user
   --password
   --database          Database name

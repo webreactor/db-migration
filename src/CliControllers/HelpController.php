@@ -13,9 +13,12 @@ class HelpController {
         echo "Usage:\n";
         echo "  dbml <command> [options] [migration options]\n";
         echo "\nCommands:\n";
+        echo "  --init          Create config YML file\n";
         echo "  --load          Load new migrations\n";
-        echo "  --list          List on loaded and new migration files\n";
+        echo "  --list          List all loaded and new migration files\n";
+        echo "  --list={limit}  List last {limit} loaded and new migration files\n";
         echo "  --new           List of new migrations\n";
+        echo "  --create={name} Create new empty migration file\n";
         echo "  --reset={id}    Reset migration state\n";
         echo "  --reset-locked  Reset all migration with state no new or migrated\n";
         echo "  --help\n";
