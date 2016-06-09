@@ -8,12 +8,14 @@ class DbmlController extends BaseController {
 
     public function handle() {
         try {
+            $this->testDependencies();
             $this->handleBody();
         } catch (\Exception $e) {
             echo "Error: ".$e->getMessage()."\n";
             exit(1);
         }
     }
+
     public function handleBody() {
         $this->loadCommonParameters();
         if (!isset($this->app->parameters['clean'])) {
@@ -52,6 +54,16 @@ class DbmlController extends BaseController {
 
     public function welcome() {
         echo "DBML - DataBase Migration scripts Loader version ".$this->app->parameters['app-version']."\n\n";
+    }
+
+    public function testDependencies() {
+        if (!class_exists('PDO')) {
+            throw new \Exception("Missing PDO driver.\nThis might help: sudo apt-get install php5-mysql\n", 1);
+        }
+        $a = exec('mysql -V', $out, $code);
+        if ($code > 0) {
+            throw new \Exception("Missing mysql client tool.\nThis might help: sudo apt-get install mysql-client\n", 1);
+        }
     }
 
 }

@@ -7,7 +7,7 @@
 # Database port
 # port: 3306
 
-# Path to socket, has more priority than host
+# Path to socket, has higher priority than host
 # unix_socket: /var/run/mysqld/mysqld.sock
 
 # Database user
@@ -23,7 +23,7 @@
 # create-database: true
 
 # Table name for migration state
-# table: db-migrations
+# table: db_migrations
 
 # Extra parameters will bepassed to load a migration command
 # extra: ~

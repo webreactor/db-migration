@@ -58,13 +58,17 @@ class BaseController {
         
         $config_file = $cli_options['config'] = realpath($config_file);
         
-        $file_options = array();
         if (is_file($config_file)) {
             $file_options = Utilities::loadConfig($config_file);
             if (isset($file_options['migrations']) && !isset($cli_options['migrations'])) {
                 chdir(dirname($config_file));
             }
         }
+
+        if (!$file_options) {
+            $file_options = array();
+        }
+
         $parameters = array_merge($base_config, $file_options, $cli_options);
         $this->app->setParameters($parameters);
 
@@ -78,6 +82,12 @@ class BaseController {
         }
         $parameters['migrations'] = $real.DIRECTORY_SEPARATOR;
         $this->app->setParameters($parameters);
+        if (!isset($this->app->parameters['clean'])) {
+            $this->printParameters();
+        }
+        if (empty($this->app->parameters['database'])) {
+            throw new \Exception("Missing database name");
+        }
     }
 
     public function printParameters() {

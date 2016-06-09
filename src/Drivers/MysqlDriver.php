@@ -108,7 +108,7 @@ class MysqlDriver implements DriverInterface {
             'password'                 => null,
             'unix_socket'              => null,
             'database'                 => '',
-            'create-database'          => null,
+            'create-database'          => true,
             'extra'                    => '',
             'table'                    => 'db_migrations',
             'migration-file-extention' => 'sql',
