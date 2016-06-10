@@ -7,7 +7,14 @@
             "Reactor\\": "src/Reactor"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/webreactor/cli-arguments.git"
+        }
+    ],
     "require": {
-        "symfony/yaml": "3.0.1"
+        "symfony/yaml": "3.0.1",
+        "webreactor/cli-arguments": "dev-master"
     }
 }

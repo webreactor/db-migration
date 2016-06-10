@@ -102,16 +102,16 @@ class MysqlDriver implements DriverInterface {
 
     public function getDefaults() {
         return array(
-            'host'                     => 'localhost',
-            'port'                     => '3306',
-            'user'                     => null,
-            'password'                 => null,
-            'unix_socket'              => null,
-            'database'                 => '',
-            'create-database'          => true,
-            'extra'                    => '',
-            'table'                    => 'db_migrations',
-            'migration-file-extention' => 'sql',
+            array('host', 'h', 'localhost'),
+            array('port', '', '3306'),
+            array('user', 'u', null),
+            array('password', 'p', null),
+            array('unix_socket', '', null),
+            array('database', 'db', ''),
+            array('create-database', 'c', true),
+            array('extra', '', ''),
+            array('table', '', 'db_migrations'),
+            array('migration-file-extention', '', 'sql'),
         );
     }
 

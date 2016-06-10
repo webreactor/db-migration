@@ -86,7 +86,7 @@ class Application {
 
     protected function mergeMigrations($tracked_migrations, $migrations_data) {
         $ids = array_merge(array_keys($migrations_data), array_keys($tracked_migrations));
-        $ids= array_unique($ids);
+        $ids = array_unique($ids);
         sort($ids);
 
         $merged = array();

@@ -3,15 +3,18 @@
 namespace Dbml\CliControllers;
 
 use \Dbml\Utilities;
+use \Webreactor\CliArguments\ArgumentsParser;
 
 class BaseController {
     /**
      * @var \Dbml\Application
      */
     public $app;
+    public $cli_arguments;
 
     public function __construct($app) {
         $this->app = $app;
+        $this->cli_arguments = new ArgumentsParser($GLOBALS['argv']);
     }
 
     public function handle() {
@@ -35,19 +38,19 @@ class BaseController {
             '  ', $migration->after."\n";
     }
 
-    public function getCliArguments($expecting) {
-        $names = array();
-        foreach ($expecting as $key => $value) {
-            $names[] = "$key::";
+    public function getCliArguments($definitions) {
+        foreach ($definitions as $def) {
+            $parser->addDefinition($def[0], $def[1], $def[2]);
         }
-        return getopt(null, $names);
+
+        return $this->cli_arguments->getAll();
     }
 
     public function loadMigrationParameters() {
         $base_config = array(
-            'config'        => 'db-migration.yml',
-            'migrations'    => 'db-migrations',
-            'driver'        => 'mysql',
+            array('config', 'c', 'db-migration.yml'),
+            array('migrations', 'm', 'db-migrations'),
+            array('driver', 'd', 'mysql'),
         );
         $cli_options = $this->getCliArguments($base_config);
 
@@ -58,15 +61,15 @@ class BaseController {
         
         $config_file = $cli_options['config'] = realpath($config_file);
         
+        $file_options = array();
         if (is_file($config_file)) {
             $file_options = Utilities::loadConfig($config_file);
+            if (!$file_options) {
+                $file_options = array();
+            }
             if (isset($file_options['migrations']) && !isset($cli_options['migrations'])) {
                 chdir(dirname($config_file));
             }
-        }
-
-        if (!$file_options) {
-            $file_options = array();
         }
 
         $parameters = array_merge($base_config, $file_options, $cli_options);
