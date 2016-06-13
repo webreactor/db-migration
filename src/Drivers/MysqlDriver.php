@@ -24,7 +24,7 @@ class MysqlDriver implements DriverInterface {
         if (!isset($options['database'])) {
             throw new \Exception("missing mandatory parameter 'database'", 1);
         }
-        if (!empty($options['create-database'])) {
+        if ($options['create-database'] === 'yes' || $options['create-database'] === true) {
             $create_statement = 'CREATE DATABASE IF NOT EXISTS `'.$options['database'].'`';
             $this->connection->sql($create_statement, array());
         }
@@ -102,16 +102,16 @@ class MysqlDriver implements DriverInterface {
 
     public function getDefaults() {
         return array(
-            array('host', 'h', 'localhost'),
-            array('port', '', '3306'),
-            array('user', 'u', null),
-            array('password', 'p', null),
-            array('unix_socket', '', null),
-            array('database', 'db', ''),
-            array('create-database', 'c', true),
-            array('extra', '', ''),
-            array('table', '', 'db_migrations'),
-            array('migration-file-extention', '', 'sql'),
+            array('host', 'h', 'localhost', ''),
+            array('port', 'P', '3306', ''),
+            array('user', 'u', null, ''),
+            array('password', 'p', null, ''),
+            array('unix_socket', 's', null, ''),
+            array('database', 'd', '', 'Database name'),
+            array('create-database', 'c', 'yes', '(yes|no) Creates db if not exists'),
+            array('extra', 'x', '', 'Extra parameters will bepassed to load a migration command'),
+            array('table', 't', 'db_migrations', 'Table name for migration state. Default is db-migrations'),
+            array('migration-file-extention', 'j', 'sql', ''),
         );
     }
 
@@ -124,12 +124,12 @@ class MysqlDriver implements DriverInterface {
         $rez = 'mysql -B '.Utilities::buildCmdArgs(
             $options,
             array(
-            'host'          => '--host=',
-            'user'          => '--user=',
-            'port'          => '--port=',
-            'password'      => '--password=',
-            'unix_socket'   => '--socket=',
-            'database'      => '--database=',
+                'host'          => '--host=',
+                'user'          => '--user=',
+                'port'          => '--port=',
+                'password'      => '--password=',
+                'unix_socket'   => '--socket=',
+                'database'      => '--database=',
         ));
         if (isset($options['extra'])) {
             $rez .= ' '.$options['extra'];

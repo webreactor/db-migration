@@ -63,7 +63,7 @@ class MigrationStorage {
     public function parseMigrationFileName($fullname, $files) {
         $filename = basename($fullname);
         $file_extention = preg_quote('.' . $this->file_extention);
-        if (!preg_match('/^(\d{4}-\d{2}-\d{2}-\d{3})(-.+)?'.$file_extention.'$/i', $filename, $matches)) {
+        if (!preg_match('/^(\d{4}-\d{2}-\d{2}-\d{3})([^\d].*)?'.$file_extention.'$/i', $filename, $matches)) {
             return false;
         }
 

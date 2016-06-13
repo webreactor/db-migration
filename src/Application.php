@@ -3,7 +3,6 @@
 namespace Dbml;
 
 class Application {
-    private $app;
 
     protected $cache = array();
     public $parameters = array();
@@ -45,7 +44,7 @@ class Application {
         if(!class_exists($c_name)) {
             throw new \Exception("Unknown driver '$driver_name'");
         }
-        $this->cache['tracker'] = new $c_name($this->app);
+        $this->cache['tracker'] = new $c_name($this);
         return $this->cache['tracker'];
     }
 
@@ -78,7 +77,7 @@ class Application {
         }
 
         if ($limit) {
-            $merged = array_reverse(array_slice($merged, -$limit, null, true));
+            $merged = array_slice($merged, -$limit, null, true);
         }
 
         return $merged;

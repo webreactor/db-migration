@@ -4,13 +4,14 @@ namespace Dbml\CliControllers;
 
 class ListController extends BaseController {
 
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         $this->initTracker();
 
-        if (false === $this->app->parameters['list']) {
-            $limit = null;
-        } else {
-            $limit = intval($this->app->parameters['list']);
+        $limit = null;
+        $words = $this->request->get('_words_');
+        if (isset($words[2])) {
+            $limit = $words[2];
         }
 
         $migrations = $this->app->getAllMigrations($limit);

@@ -4,7 +4,8 @@ namespace Dbml\CliControllers;
 
 class ResetLocksController extends BaseController {
 
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         $this->initTracker();
         $migrations = $this->app->getAllMigrations();
         $tracker = $this->app->getTracker();
