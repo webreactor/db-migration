@@ -8,7 +8,7 @@ class Application {
     public $parameters = array();
 
     public function __construct() {
-        $this->parameters['app-version'] = '0.1.0';
+        $this->parameters['app-version'] = '1.0.0';
     }
 
     public function setParameters($parameters) {
