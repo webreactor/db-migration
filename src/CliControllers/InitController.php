@@ -3,7 +3,8 @@
 namespace Dbml\CliControllers;
 
 class InitController extends BaseController {
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         $filename = 'db-migration.yml';
 
         $source = __DIR__ . '/../../' . $filename;

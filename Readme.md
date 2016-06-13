@@ -76,17 +76,17 @@ user: $MYSQL_USERNAME
 password: $MYSQL_PASSWORD
 database: aplication
 migrations: db-migrations
-create-database: true
+create-database: yes
 ```
 
 Same result using cli arguments:
 ```
 db-migration --list \
-    --user="$MYSQL_USERNAME" \
-    --password="$MYSQL_PASSWORD" \
-    --database="allication" \
-    --migrations="db-migrations" \
-    --create-database="true"
+    --user "$MYSQL_USERNAME" \
+    --password "$MYSQL_PASSWORD" \
+    --database= application" \
+    --migrations "db-migrations" \
+    --create-database "yes"
 ```
 
 **If some scripts failed, migration will be locked until you reset state**\
@@ -100,34 +100,41 @@ In case if some migration file failed
 ## Parameters
 ```
 Usage:
-  db-migration <command> [options] [migration options]
+  dbml <command> [--option value]
 
 Commands:
-  --init          Create config YML file
-  --load          Load new migrations
-  --list          List all loaded and new migration files
-  --list={limit}  List last {limit} loaded and new migration files
-  --new           List of new migrations
-  --create={name} Create new empty migration file with name
-  --reset={id}    Reset migration state
-  --reset-locked  Reset all migration with state no new or migrated
-  --help
+  init            Create config YML file
+  load            Load new migrations
+  list            List all loaded and new migration files
+  list {limit}    List last {limit} loaded and new migration files
+  new             List of new migrations
+  create {name}   Create new empty migration file
+  reset {id}      Reset migration state
+  reset-locks     Reset all migration with state no new or migrated
+  help            Show help
 
 Options:
-  --clean         Clean output, no headers
-  --config        Path to config YML file. Default db-migration.yml at current folder
+  Full name       | Short | Default          | Note
+-----------------------------------------------------
+  --clean                   no                 (yes|no) Clean output, no headers
+  --config          -f      db-migration.yml   Path to config YML file. Default  at current folder
+  --migrations      -m      migrations         Path to migration scripts
+  --driver          -d      mysql              Database driver
 
-Migration Options:
-  --migrations    Path to migration scripts
-  --host          Default is localhost
-  --port          Default is 3306
-  --unix_socket   Path to socket, has more priority than host
-  --user
-  --password
-  --database          Database name
-  --create-database   Creates db if not exists
-  --table             Table name for migration state. Default is db-migrations
-  --extra             Extra parameters will be passed to load a migration command
+'mysql' driver:
+  Full name        | Short | Default       | Note
+-----------------------------------------------------
+  --host             -h     localhost       
+  --port             -P     3306            
+  --user             -u                     
+  --password         -p                     
+  --unix_socket      -s                     
+  --database         -d                     Database name
+  --create-database  -c     yes             (yes|no) Creates db if not exists
+  --extra            -x                     Extra parameters will bepassed to load a migration command
+  --table            -t     db_migrations   Table name for migration state. Default is db-migrations
+  --migration-file-extention -j     sql             
 
-All options can be specified in YML file
+All options can be specified in YML file. Pleae use full name of option.
+
 ```

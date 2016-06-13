@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "555d56c266b9ff9cfba7898caaef90a0",
-    "content-hash": "055279e73b0c519e14f0fd23cf11f2bc",
+    "hash": "ae05b2a45f6b105c7ca021261cee3899",
+    "content-hash": "f5a4ca02016d3413734e1b059fafb192",
     "packages": [
         {
             "name": "symfony/yaml",
@@ -55,12 +55,43 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2015-12-26 13:39:53"
+        },
+        {
+            "name": "webreactor/cli-arguments",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webreactor/cli-arguments.git",
+                "reference": "2b68465c6082e12bddb43298175010041aeec893"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webreactor/cli-arguments/zipball/2b68465c6082e12bddb43298175010041aeec893",
+                "reference": "2b68465c6082e12bddb43298175010041aeec893",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Webreactor\\CliArguments\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "source": "https://github.com/webreactor/cli-arguments/tree/master",
+                "issues": "https://github.com/webreactor/cli-arguments/issues"
+            },
+            "time": "2016-06-13 19:48:22"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "webreactor/cli-arguments": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

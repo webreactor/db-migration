@@ -9,13 +9,14 @@ class BaseController {
      * @var \Dbml\Application
      */
     public $app;
+    public $request;
 
     public function __construct($app) {
         $this->app = $app;
     }
 
-    public function handle() {
-        
+    public function handle($request) {
+        $this->request = $request;
     }
 
     public function initTracker() {
@@ -35,47 +36,43 @@ class BaseController {
             '  ', $migration->after."\n";
     }
 
-    public function getCliArguments($expecting) {
-        $names = array();
-        foreach ($expecting as $key => $value) {
-            $names[] = "$key::";
+    public function getCliArguments($definitions) {
+        foreach ($definitions as $def) {
+            $this->request->setDefinition($def[0], $def[1], $def[2]);
         }
-        return getopt(null, $names);
+
+        return $this->request->getAll();
     }
 
     public function loadMigrationParameters() {
         $base_config = array(
-            'config'        => 'db-migration.yml',
-            'migrations'    => 'db-migrations',
-            'driver'        => 'mysql',
+            array('config', 'f', 'db-migration.yml'),
+            array('migrations', 'm', 'db-migrations'),
+            array('driver', 'r', 'mysql'),
         );
         $cli_options = $this->getCliArguments($base_config);
-
-        $config_file = $base_config['config'];
-        if (isset($cli_options['config'])) {
-            $config_file = $cli_options['config'];
-        }
+        $config_file = $cli_options['config'];
         
         $config_file = $cli_options['config'] = realpath($config_file);
         
+        $file_options = array();
         if (is_file($config_file)) {
             $file_options = Utilities::loadConfig($config_file);
+            if (!$file_options) {
+                $file_options = array();
+            }
             if (isset($file_options['migrations']) && !isset($cli_options['migrations'])) {
                 chdir(dirname($config_file));
             }
         }
 
-        if (!$file_options) {
-            $file_options = array();
-        }
-
-        $parameters = array_merge($base_config, $file_options, $cli_options);
+        $parameters = array_merge($file_options, $cli_options);
         $this->app->setParameters($parameters);
 
         $tracker_defaults = $this->app->getTrackerDefaults();
         $tracker_cli_parameters = $this->getCliArguments($tracker_defaults);
 
-        $parameters = array_merge($tracker_defaults, $parameters, $tracker_cli_parameters);
+        $parameters = array_merge($parameters, $tracker_cli_parameters);
         $real = realpath($parameters['migrations']);
         if ($real === false) {
             throw new \Exception("Cannot find migrations path '{$parameters['migrations']}'", 1);

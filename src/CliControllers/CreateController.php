@@ -3,7 +3,8 @@
 namespace Dbml\CliControllers;
 
 class CreateController extends BaseController {
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         $date   = date('Y-m-d');
         $number = 1;
 
@@ -21,8 +22,15 @@ class CreateController extends BaseController {
             str_pad($number, 3, '0', STR_PAD_LEFT)
         );
 
-        if ($this->app->parameters['create'] !== false) {
-            $migration_filename .= '-' . $this->app->parameters['create'];
+        $words = $this->request->get('_words_');
+        $name = false;
+        if (isset($words[2])) {
+            $name = $words[2];
+        }
+
+        if ($name !== false) {
+            $name = preg_replace('/[^\w]/', '-', $name);
+            $migration_filename .= '-' . $name;
         }
 
         $migration_filename .= '.' . $this->app->parameters['migration-file-extention'];

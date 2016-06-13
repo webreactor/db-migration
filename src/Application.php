@@ -3,13 +3,12 @@
 namespace Dbml;
 
 class Application {
-    private $app;
 
     protected $cache = array();
     public $parameters = array();
 
     public function __construct() {
-        $this->parameters['app-version'] = '0.1.0';
+        $this->parameters['app-version'] = '1.0.0';
     }
 
     public function setParameters($parameters) {
@@ -45,7 +44,7 @@ class Application {
         if(!class_exists($c_name)) {
             throw new \Exception("Unknown driver '$driver_name'");
         }
-        $this->cache['tracker'] = new $c_name($this->app);
+        $this->cache['tracker'] = new $c_name($this);
         return $this->cache['tracker'];
     }
 
@@ -78,7 +77,7 @@ class Application {
         }
 
         if ($limit) {
-            $merged = array_reverse(array_slice($merged, -$limit, null, true));
+            $merged = array_slice($merged, -$limit, null, true);
         }
 
         return $merged;
@@ -86,7 +85,7 @@ class Application {
 
     protected function mergeMigrations($tracked_migrations, $migrations_data) {
         $ids = array_merge(array_keys($migrations_data), array_keys($tracked_migrations));
-        $ids= array_unique($ids);
+        $ids = array_unique($ids);
         sort($ids);
 
         $merged = array();

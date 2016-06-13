@@ -6,7 +6,8 @@ use Dbml\Utilities;
 
 class DbmlController extends BaseController {
 
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         try {
             $this->testDependencies();
             $this->handleBody();
@@ -18,42 +19,39 @@ class DbmlController extends BaseController {
 
     public function handleBody() {
         $this->loadCommonParameters();
-        if (!isset($this->app->parameters['clean'])) {
+        if (!$this->app->parameters['clean']) {
             $this->welcome();
         }
-        $command = Utilities::strToClassName($this->getCommand());
-        $command = 'Dbml\\CliControllers\\'.$command.'Controller';
-        $command_ctrl = new $command($this->app);
-        $command_ctrl->handle();
+        $command  = $this->getCommand();
+        $c_name = Utilities::strToClassName($command);
+        $c_name = 'Dbml\\CliControllers\\'.$c_name.'Controller';
+        if (!class_exists($c_name)) {
+            throw new \Exception("No such command '$command'", 1);
+        }
+        $command_ctrl = new $c_name($this->app);
+        $command_ctrl->handle($this->request);
     }
 
     public function getCommand() {
-        $options = getopt('', array(
-            'init',
-            'load',
-            'list::',
-            'new',
-            'create::',
-            'reset::',
-            'reset-locks',
-        ));
-        if (count($options) == 0) {
-            return 'help';
+        $this->request->setDefinition('_words_', '', false, true);
+        $words = $this->request->get('_words_');
+        if (!isset($words[1])) {
+            $words[1] = 'help';
         }
-        $this->app->setParameters($options);
-        $options = array_keys($options);
-        return $options[0];
+        $command = $words[1];
+        $this->app->setParameters(array('command' => $command));
+        return $command;
     }
 
     public function loadCommonParameters() {
-        $options = getopt('', array(
-            'clean',
-        ));
-        $this->app->setParameters($options);
+        $this->request->setDefinition('clean', '', 'no', false, 'clean output');
+        $clean = $this->request->get('clean');
+        $clean = ($clean !== 'no');
+        $this->app->setParameters(array('clean' => $clean));
     }
 
     public function welcome() {
-        echo "DBML - DataBase Migration scripts Loader version ".$this->app->parameters['app-version']."\n\n";
+        echo "db-migration - Database migration scripts loader. Version ".$this->app->parameters['app-version']."\n\n";
     }
 
     public function testDependencies() {

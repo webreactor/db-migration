@@ -2,44 +2,60 @@
 
 namespace Dbml\CliControllers;
 
+use Dbml\Utilities;
 
-class HelpController {
+class HelpController extends BaseController {
 
-    public function __construct($app) {
-        $this->app = $app;
+    public function getAvaialbeCommands() {
+        return array(
+            'init'          => 'Create config YML file',
+            'load'          => 'Load new migrations',
+            'list'          => 'List all loaded and new migration files',
+            'list {limit}'  => 'List last {limit} loaded and new migration files',
+            'new'           => 'List of new migrations',
+            'create {name}' => 'Create new empty migration file',
+            'reset {id}'    => 'Reset migration state',
+            'reset-locks'   => 'Reset all migration with state no new or migrated',
+            'help'          => 'Show help',
+        );
+    }
+    public function getAvaialbeDrivers() {
+        return array(
+            'mysql',
+        );
     }
 
-    public function handle() {
+    public function handle($request) {
         echo "Usage:\n";
-        echo "  dbml <command> [options] [migration options]\n";
+        echo "  dbml <command> [--option value]\n";
+        $commands = $this->getAvaialbeCommands();
         echo "\nCommands:\n";
-        echo "  --init          Create config YML file\n";
-        echo "  --load          Load new migrations\n";
-        echo "  --list          List all loaded and new migration files\n";
-        echo "  --list={limit}  List last {limit} loaded and new migration files\n";
-        echo "  --new           List of new migrations\n";
-        echo "  --create={name} Create new empty migration file\n";
-        echo "  --reset={id}    Reset migration state\n";
-        echo "  --reset-locked  Reset all migration with state no new or migrated\n";
-        echo "  --help\n";
+        foreach ($commands as $key => $value) {
+            echo sprintf("  %-15s %s\n", $key, $value);
+        }
 
         echo "\nOptions:\n";
-        echo "  --clean         Clean output, no headers\n";
-        echo "  --config        Path to config YML file. Default db-migration.yml at current folder\n";
+        echo "  Full name       | Short | Default          | Note\n";
+        echo "-----------------------------------------------------\n";
+        echo "  --clean                   no                 (yes|no) Clean output, no headers\n";
+        echo "  --config          -f      db-migration.yml   Path to config YML file. Default  at current folder\n";
+        echo "  --migrations      -m      migrations         Path to migration scripts\n";
+        echo "  --driver          -d      mysql              Database driver\n";
 
-        echo "\nMigration Options:\n";
-        echo "  --migrations    Path to migration scripts\n";
-        echo "  --host          Default is localhost\n";
-        echo "  --port          Default is 3306\n";
-        echo "  --unix_socket   Path to socket. has more priority that host\n";
-        echo "  --user\n";
-        echo "  --password\n";
-        echo "  --database          Database name\n";
-        echo "  --create-database   Creates db if not exists\n";
-        echo "  --table             Table name for migration state. Default is db-migrations\n";
-        echo "  --extra             Extra parameters will bepassed to load a migration command\n";
-
-        echo "\nAll options can be specified in YML file\n";
+        $drivers = $this->getAvaialbeDrivers();
+        foreach ($drivers as $driver_name) {
+            $c_name = Utilities::strToClassName($driver_name);
+            $c_name = 'Dbml\\Drivers\\'.$c_name.'Driver';
+            $driver = new $c_name();
+            $argumets = $driver->getDefaults();
+            echo "\n'$driver_name' driver:\n";
+        echo "  Full name        | Short | Default       | Note\n";
+        echo "-----------------------------------------------------\n";
+            foreach ($argumets as $value) {
+                echo sprintf("  --%-16s -%-5s %-15s %s\n", $value[0], $value[1], $value[2], $value[3]);
+            }
+        }
+        echo "\nAll options can be specified in YML file. Pleae use full name of option.\n\n";
 
     }
 

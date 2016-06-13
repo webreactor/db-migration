@@ -6,7 +6,8 @@ use \Dbml\Utilities;
 
 class LoadController extends BaseController {
 
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         $this->initTracker();
         $migrations = $this->app->getAllMigrations();
         $this->checkNonMigrated($migrations);

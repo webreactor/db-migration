@@ -20,7 +20,7 @@
 # database: test
 
 # Creates db if not exists
-# create-database: true
+# create-database: yes
 
 # Table name for migration state
 # table: db_migrations

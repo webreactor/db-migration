@@ -4,12 +4,19 @@ namespace Dbml\CliControllers;
 
 class ResetController extends BaseController {
 
-    public function handle() {
+    public function handle($request) {
+        parent::handle($request);
         $this->initTracker();
         $mirations = $this->app->getAllMigrations();
         $tracker = $this->app->getTracker();
         $cnt = 0;
-        $reset_id = $this->app->parameters['reset'];
+
+        $words = $this->request->get('_words_');
+        if (!isset($words[2])) {
+            throw new \Exception("Must specify migration id", 1);
+        }
+        $reset_id = $words[2];
+
         foreach ($mirations as $migration) {
             if ($migration->id == $reset_id) {
                 $this->printMigration($migration);
