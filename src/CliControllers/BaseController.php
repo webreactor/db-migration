@@ -36,24 +36,23 @@ class BaseController {
             '  ', $migration->after."\n";
     }
 
-    public function getCliArguments($definitions) {
+    public function getCliArguments($definitions, $defaults = array()) {
         foreach ($definitions as $def) {
             $this->request->setDefinition($def[0], $def[1], $def[2]);
         }
-
-        return $this->request->getAll();
+        if (count($defaults) != 0) {
+            $this->request->updateDefaults($defaults);
+        }
+        return array_merge($defaults, $this->request->getAll());
     }
 
     public function loadMigrationParameters() {
-        $base_config = array(
+        $config_file_config = array(
             array('config', 'f', 'db-migration.yml'),
-            array('migrations', 'm', 'db-migrations'),
-            array('driver', 'r', 'mysql'),
         );
-        $cli_options = $this->getCliArguments($base_config);
-        $config_file = $cli_options['config'];
+        $config_cli_parameters = $this->getCliArguments($config_file_config);
         
-        $config_file = $cli_options['config'] = realpath($config_file);
+        $config_file = $config_cli_parameters['config'] = realpath($config_cli_parameters['config']);
         
         $file_options = array();
         if (is_file($config_file)) {
@@ -65,23 +64,29 @@ class BaseController {
                 chdir(dirname($config_file));
             }
         }
+        $parameters = array_merge($file_options, $config_cli_parameters);
+        $this->app->setParameters($parameters);
 
-        $parameters = array_merge($file_options, $cli_options);
+        $base_config = array(
+            array('migrations', 'm', 'db-migrations'),
+            array('driver', 'r', 'mysql'),
+        );
+
+        $parameters = $this->getCliArguments($base_config, $parameters);
         $this->app->setParameters($parameters);
 
         $tracker_defaults = $this->app->getTrackerDefaults();
-        $tracker_cli_parameters = $this->getCliArguments($tracker_defaults);
+        $parameters = $this->getCliArguments($tracker_defaults, $parameters);
 
-        $parameters = array_merge($parameters, $tracker_cli_parameters);
         $real = realpath($parameters['migrations']);
         if ($real === false) {
             throw new \Exception("Cannot find migrations path '{$parameters['migrations']}'", 1);
         }
         $parameters['migrations'] = $real.DIRECTORY_SEPARATOR;
         $this->app->setParameters($parameters);
-        if (!isset($this->app->parameters['clean'])) {
-            $this->printParameters();
-        }
+        // if (!($this->app->parameters['clean'] !== 'no')) {
+        //     $this->printParameters();
+        // }
         if (empty($this->app->parameters['database'])) {
             throw new \Exception("Missing database name");
         }
