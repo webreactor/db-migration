@@ -46,7 +46,6 @@ class DbmlController extends BaseController {
     public function loadCommonParameters() {
         $this->request->setDefinition('clean', '', 'no', false, 'clean output');
         $clean = $this->request->get('clean');
-        $clean = ($clean !== 'no');
         $this->app->setParameters(array('clean' => $clean));
     }
 
