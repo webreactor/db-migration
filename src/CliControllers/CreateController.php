@@ -22,7 +22,7 @@ class CreateController extends BaseController {
             str_pad($number, 3, '0', STR_PAD_LEFT)
         );
 
-        $words = $this->request->get('_words_');
+        $words = $this->app->parameters['_words_'];
         $name = false;
         if (isset($words[2])) {
             $name = $words[2];
