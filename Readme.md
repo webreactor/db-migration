@@ -111,30 +111,32 @@ Commands:
   create {name}   Create new empty migration file
   reset {id}      Reset migration state
   reset-locks     Reset all migration with state no new or migrated
+  config          Show current config
   help            Show help
 
 Options:
-  Full name       | Short | Default          | Note
+  Full name        | Short | Default          | Note
 -----------------------------------------------------
-  --clean                   no                 (yes|no) Clean output, no headers
-  --config          -f      db-migration.yml   Path to config YML file. Default  at current folder
-  --migrations      -m      migrations         Path to migration scripts
-  --driver          -d      mysql              Database driver
+  --clean                    no                 (yes|no) Clean output, no headers
+  --config           -f      db-migration.yml   Path to config YML file. Default  at current folder
+  --migrations       -m      migrations         Path to migration scripts
+  --driver           -r      mysql              Database driver
 
 'mysql' driver:
-  Full name        | Short | Default       | Note
+  Full name        | Short | Default          | Note
 -----------------------------------------------------
-  --host             -h     localhost       
-  --port             -P     3306            
-  --user             -u                     
-  --password         -p                     
-  --unix_socket      -s                     
-  --database         -d                     Database name
-  --create-database  -c     yes             (yes|no) Creates db if not exists
-  --extra            -x                     Extra parameters will bepassed to load a migration command
-  --table            -t     db_migrations   Table name for migration state. Default is db-migrations
-  --migration-file-extention -j     sql             
+  --host             -h      localhost
+  --port             -P      3306
+  --user             -u
+  --password         -p
+  --unix_socket      -s
+  --database         -d                         Database name
+  --create-database  -c      yes                (yes|no) Creates db if not exists
+  --extra            -x                         Extra parameters will bepassed to load a migration command
+  --table            -t      db_migrations      Table name for migration state. Default is db-migrations
+  --migration-file-extention -j      sql
 
 All options can be specified in YML file. Pleae use full name of option.
+
 
 ```

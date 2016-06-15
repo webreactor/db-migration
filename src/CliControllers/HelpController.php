@@ -16,6 +16,7 @@ class HelpController extends BaseController {
             'create {name}' => 'Create new empty migration file',
             'reset {id}'    => 'Reset migration state',
             'reset-locks'   => 'Reset all migration with state no new or migrated',
+            'config'        => 'Show current config',
             'help'          => 'Show help',
         );
     }
@@ -35,12 +36,12 @@ class HelpController extends BaseController {
         }
 
         echo "\nOptions:\n";
-        echo "  Full name       | Short | Default          | Note\n";
+        echo "  Full name        | Short | Default          | Note\n";
         echo "-----------------------------------------------------\n";
-        echo "  --clean                   no                 (yes|no) Clean output, no headers\n";
-        echo "  --config          -f      db-migration.yml   Path to config YML file. Default  at current folder\n";
-        echo "  --migrations      -m      migrations         Path to migration scripts\n";
-        echo "  --driver          -d      mysql              Database driver\n";
+        echo "  --clean                    no                 (yes|no) Clean output, no headers\n";
+        echo "  --config           -f      db-migration.yml   Path to config YML file. Default  at current folder\n";
+        echo "  --migrations       -m      migrations         Path to migration scripts\n";
+        echo "  --driver           -r      mysql              Database driver\n";
 
         $drivers = $this->getAvaialbeDrivers();
         foreach ($drivers as $driver_name) {
@@ -49,10 +50,10 @@ class HelpController extends BaseController {
             $driver = new $c_name();
             $argumets = $driver->getDefaults();
             echo "\n'$driver_name' driver:\n";
-        echo "  Full name        | Short | Default       | Note\n";
+        echo "  Full name        | Short | Default          | Note\n";
         echo "-----------------------------------------------------\n";
             foreach ($argumets as $value) {
-                echo sprintf("  --%-16s -%-5s %-15s %s\n", $value[0], $value[1], $value[2], $value[3]);
+                echo sprintf("  --%-16s -%-6s %-18s %s\n", $value[0], $value[1], $value[2], $value[3]);
             }
         }
         echo "\nAll options can be specified in YML file. Pleae use full name of option.\n\n";

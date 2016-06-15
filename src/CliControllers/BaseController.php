@@ -37,11 +37,13 @@ class BaseController {
     }
 
     public function getCliArguments($definitions, $defaults = array()) {
-        foreach ($definitions as $def) {
-            $this->request->setDefinition($def[0], $def[1], $def[2]);
-        }
-        if (count($defaults) != 0) {
-            $this->request->updateDefaults($defaults);
+        $this->request->reset();
+        foreach ($definitions as $definition) {
+            $name = $definition[0];
+            if (isset($defaults[$name])) {
+                $definition[2] = $defaults[$name];
+            }
+            $this->request->addDefinition($name, $definition[1], $definition[2]);
         }
         return array_merge($defaults, $this->request->getAll());
     }

@@ -9,7 +9,7 @@ class ListController extends BaseController {
         $this->initTracker();
 
         $limit = null;
-        $words = $this->request->get('_words_');
+        $words = $this->app->parameters['_words_'];
         if (isset($words[2])) {
             $limit = $words[2];
         }

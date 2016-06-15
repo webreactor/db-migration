@@ -33,20 +33,23 @@ class DbmlController extends BaseController {
     }
 
     public function getCommand() {
-        $this->request->setDefinition('_words_', '', false, true);
+        $this->request->addDefinition('_words_', '', false, true);
         $words = $this->request->get('_words_');
         if (!isset($words[1])) {
             $words[1] = 'help';
         }
         $command = $words[1];
-        $this->app->setParameters(array('command' => $command));
+        $this->app->setParameters(array(
+            'command' => $command,
+            '_words_' => $words
+        ));
         return $command;
     }
 
     public function loadCommonParameters() {
-        $this->request->setDefinition('clean', '', 'no', false, 'clean output');
+        $this->request->addDefinition('clean', '', 'no', false, 'clean output');
         $clean = $this->request->get('clean');
-        $this->app->setParameters(array('clean' => $clean));
+        $this->app->setParameters(array('clean' => ($clean !== 'no')));
     }
 
     public function welcome() {
