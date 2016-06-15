@@ -7,12 +7,22 @@ class MigrationStorage {
     protected $path;
 
     public function __construct($options) {
-        $this->path = $options['migrations'];
+        $this->paths = $options['migrations'];
+        $this->pwd = $options['pwd'];
         $this->file_extention = $options['migration-file-extention'];
     }
 
     public function getList() {
-        $files = $this->getFileList($this->path);
+        $files = array();
+
+        foreach ($this->paths as $path) {
+            $real = realpath($path);
+            if ($real === false) {
+                throw new \Exception("Cannot find migrations path '$path'", 1);
+            }
+            $files = array_merge($files, $this->getFileList($path));
+        }
+
         $migrations = array();
         foreach ($files as $fullname) {
             $migration = $this->parseMigrationFileName($fullname, $files);
@@ -30,12 +40,7 @@ class MigrationStorage {
     }
 
     public function getFileList($path) {
-        $cut_prefix = strlen($this->path);
-        $files = $this->getFileList_r($path);
-        foreach ($files as $key => $fullname) {
-            $files[$key] = trim(substr($fullname, $cut_prefix), '/\\');
-        }
-        return $files;
+        return $this->getFileList_r(Utilities::realpath($path, $this->pwd));
     }
 
     public function getFileList_r($path) {
@@ -47,10 +52,10 @@ class MigrationStorage {
         if ($handle = opendir($path)) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry[0] != '.') {
-                    if (is_dir($path.'/'.$entry)) {
-                        $files = array_merge($files, $this->getFileList_r($path.'/'.$entry));
+                    if (is_dir($path.$entry)) {
+                        $files = array_merge($files, $this->getFileList_r($path.$entry.'/'));
                     } else {
-                        $files[] = $path.'/'.$entry;    
+                        $files[] = $path.$entry;
                     }
                 }
             }
@@ -76,6 +81,12 @@ class MigrationStorage {
         $id = $matches[1];
         $migration = new Migration();
         $migration->fullname = $fullname;
+        if (strpos($fullname, $this->pwd) === 0) {
+            $migration->title = str_replace($this->pwd, '', $fullname);
+        } else {
+            $migration->title = $fullname;
+        }
+
         $migration->id = $id;
 
         $base = preg_replace('/(\d{4}-\d{2}-\d{2}-\d{3})[^\/]+$/i', '\1', $fullname);

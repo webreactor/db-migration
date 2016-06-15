@@ -20,7 +20,7 @@ class LoadController extends BaseController {
 
                 if (!empty($migration->before)) {
                     $this->setStatus($migration, 'before');
-                    Utilities::exec($this->app->parameters['migrations'].$migration->before);
+                    Utilities::exec($migration->before);
                 }
 
                 $this->setStatus($migration, 'loading...');
@@ -28,7 +28,7 @@ class LoadController extends BaseController {
 
                 if (!empty($migration->after)) {
                     $this->setStatus($migration, 'after');
-                    Utilities::exec($this->app->parameters['migrations'].$migration->after);
+                    Utilities::exec($migration->after);
                 }
 
                 $this->setStatus($migration, 'migrated');

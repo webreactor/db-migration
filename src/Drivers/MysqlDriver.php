@@ -21,7 +21,7 @@ class MysqlDriver implements DriverInterface {
 
     public function selectDb() {
         $options = $this->options;
-        if (!isset($options['database'])) {
+        if (empty($options['database'])) {
             throw new \Exception("missing mandatory parameter 'database'", 1);
         }
         if ($options['create-database'] === 'yes' || $options['create-database'] === true) {
@@ -120,7 +120,7 @@ class MysqlDriver implements DriverInterface {
     }
 
     protected function buildCmd($options, $migration) {
-        $full_name = $this->options['migrations'].$migration->fullname;
+        $full_name = $migration->fullname;
         $rez = 'mysql -B '.Utilities::buildCmdArgs(
             $options,
             array(

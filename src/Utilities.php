@@ -31,6 +31,14 @@ class Utilities {
         return Utilities::resolveEnv($file_options);
     }
 
+    public static function realpath($path, $pwd) {
+        $rez = realpath($path);
+        if ($rez !== false) {
+            return $rez.DIRECTORY_SEPARATOR;
+        }
+        return realpath($pwd.$path).DIRECTORY_SEPARATOR;
+    }
+
     public static function resolveEnv($data) {
         if (is_array($data)) {
             foreach ($data as $key => $value) {

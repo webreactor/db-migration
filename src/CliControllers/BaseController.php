@@ -31,7 +31,7 @@ class BaseController {
                 $migration->status,
                 $migration->created
             ),
-            $migration->fullname,
+            $migration->title,
             '  ', $migration->before,
             '  ', $migration->after."\n";
     }
@@ -62,9 +62,7 @@ class BaseController {
             if (!$file_options) {
                 $file_options = array();
             }
-            if (isset($file_options['migrations']) && !isset($cli_options['migrations'])) {
-                chdir(dirname($config_file));
-            }
+            chdir(dirname($config_file));
         }
         $parameters = array_merge($file_options, $config_cli_parameters);
         $this->app->setParameters($parameters);
@@ -75,23 +73,44 @@ class BaseController {
         );
 
         $parameters = $this->getCliArguments($base_config, $parameters);
+        if (!is_array($parameters['migrations'])) {
+            $paths = $parameters['migrations'];
+            $paths = explode(':', $paths);
+            $parameters['migrations'] = array_map('trim', $paths);
+        }
         $this->app->setParameters($parameters);
 
         $tracker_defaults = $this->app->getTrackerDefaults();
         $parameters = $this->getCliArguments($tracker_defaults, $parameters);
+        $parameters['migrations'] = $this->normalizeMigrationPaths($parameters['migrations']);
 
-        $real = realpath($parameters['migrations']);
-        if ($real === false) {
-            throw new \Exception("Cannot find migrations path '{$parameters['migrations']}'", 1);
-        }
-        $parameters['migrations'] = $real.DIRECTORY_SEPARATOR;
+        $parameters['pwd'] = getcwd().DIRECTORY_SEPARATOR;
+
         $this->app->setParameters($parameters);
         // if (!($this->app->parameters['clean'] !== 'no')) {
         //     $this->printParameters();
         // }
-        if (empty($this->app->parameters['database'])) {
-            throw new \Exception("Missing database name");
+    }
+
+    public function normalizeMigrationPaths($paths) {
+        $paths = $this->normalizeMigrationPaths_r($paths);
+        $paths = array_map('trim', $paths);
+        foreach ($paths as $key => $path) {
+            $paths[$key] = rtrim($path, '/\\').DIRECTORY_SEPARATOR;
         }
+        return $paths;
+    }
+
+    public function normalizeMigrationPaths_r($paths) {
+        if (!is_array($paths)) {
+            $paths = explode(':', $paths);
+            return $paths;
+        }
+        $rez = array();
+        foreach ($paths as $path) {
+            $rez = array_merge($rez, $this->normalizeMigrationPaths($path));
+        }
+        return $rez;
     }
 
     public function printParameters() {
