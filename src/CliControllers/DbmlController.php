@@ -41,7 +41,7 @@ class DbmlController extends BaseController {
         $command = $words[1];
         $this->app->setParameters(array(
             'command' => $command,
-            '_words_' => $words
+            '_words_' => $words,
         ));
         return $command;
     }

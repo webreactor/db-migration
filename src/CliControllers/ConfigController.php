@@ -8,7 +8,7 @@ class ConfigController extends BaseController {
 
     public function handle($request) {
         parent::handle($request);
-        $this->initTracker();
+        $this->loadMigrationParameters();
         $this->printParameters();
     }
 

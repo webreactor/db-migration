@@ -35,17 +35,20 @@ class CreateController extends BaseController {
 
         $migration_filename .= '.' . $this->app->parameters['migration-file-extention'];
 
-        $migration_fullname = $this->app->parameters['migrations'] . $migration_filename;
+        $migration_fullname = 
+            $this->app->parameters['pwd'].
+            $this->app->parameters['migrations'][0].
+            $migration_filename;
 
         if (file_put_contents($migration_fullname, '') !== false) {
-            echo "Created new empty migration file $migration_filename\n";
+            echo "Created empty migration file $migration_filename\n";
         } else {
             throw new \Exception('Can\'t create new migration file');
         }
     }
 
     private function getLastMigrationParsedId() {
-        $this->initTracker();
+        $this->loadMigrationParameters();
 
         $migrations =
             $this->app->getMigrations()
