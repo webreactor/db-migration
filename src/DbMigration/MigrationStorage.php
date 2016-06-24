@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbml;
+namespace Reactor\DbMigration;
 
 class MigrationStorage {
 

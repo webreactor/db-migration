@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
 class ResetController extends BaseController {
 

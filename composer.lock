@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ae05b2a45f6b105c7ca021261cee3899",
+    "hash": "f2f8812ec95d35e0606b1a50fa46458f",
     "content-hash": "f5a4ca02016d3413734e1b059fafb192",
     "packages": [
         {
@@ -62,18 +62,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webreactor/cli-arguments.git",
-                "reference": "55e33ad6944ca410f45e2089f09782fcedfdf2a4"
+                "reference": "bab7e136ef88f982f6882c4cf12e40b72df38595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webreactor/cli-arguments/zipball/55e33ad6944ca410f45e2089f09782fcedfdf2a4",
-                "reference": "55e33ad6944ca410f45e2089f09782fcedfdf2a4",
+                "url": "https://api.github.com/repos/webreactor/cli-arguments/zipball/bab7e136ef88f982f6882c4cf12e40b72df38595",
+                "reference": "bab7e136ef88f982f6882c4cf12e40b72df38595",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Webreactor\\CliArguments\\": "src/"
+                    "Reactor\\CliArguments\\": "src/"
                 }
             },
             "license": [
@@ -83,7 +83,7 @@
                 "source": "https://github.com/webreactor/cli-arguments/tree/master",
                 "issues": "https://github.com/webreactor/cli-arguments/issues"
             },
-            "time": "2016-06-15 03:42:59"
+            "time": "2016-06-24 03:10:53"
         }
     ],
     "packages-dev": [],

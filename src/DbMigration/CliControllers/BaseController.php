@@ -1,13 +1,11 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
-use \Dbml\Utilities;
+use Reactor\DbMigration\Utilities;
+use Reactor\CliArguments\ArgumentDefinition;
 
 class BaseController {
-    /**
-     * @var \Dbml\Application
-     */
     public $app;
     public $request;
 
@@ -43,8 +41,9 @@ class BaseController {
             if (isset($defaults[$name])) {
                 $definition[2] = $defaults[$name];
             }
-            $this->request->addDefinition($name, $definition[1], $definition[2]);
+            $this->request->addDefinition(new ArgumentDefinition($name, $definition[1], $definition[2]));
         }
+        $this->request->parse();
         return array_merge($defaults, $this->request->getAll());
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbml\Drivers;
+namespace Reactor\DbMigration\Drivers;
 
 interface DriverInterface {
 

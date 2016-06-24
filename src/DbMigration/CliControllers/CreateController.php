@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
 class CreateController extends BaseController {
     public function handle($request) {

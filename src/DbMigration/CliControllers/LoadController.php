@@ -1,8 +1,8 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
-use \Dbml\Utilities;
+use Reactor\DbMigration\Utilities;
 
 class LoadController extends BaseController {
 
@@ -35,9 +35,7 @@ class LoadController extends BaseController {
                 echo "\n";
             }
         }
-
         echo "All migrated\n";
-
     }
 
     public function checkNonMigrated($migrations) {

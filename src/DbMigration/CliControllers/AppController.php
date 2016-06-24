@@ -1,10 +1,11 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
-use Dbml\Utilities;
+use Reactor\DbMigration\Utilities;
+use Reactor\CliArguments\ArgumentDefinition;
 
-class DbmlController extends BaseController {
+class AppController extends BaseController {
 
     public function handle($request) {
         parent::handle($request);
@@ -24,7 +25,7 @@ class DbmlController extends BaseController {
         }
         $command  = $this->getCommand();
         $c_name = Utilities::strToClassName($command);
-        $c_name = 'Dbml\\CliControllers\\'.$c_name.'Controller';
+        $c_name = 'Reactor\\DbMigration\\CliControllers\\'.$c_name.'Controller';
         if (!class_exists($c_name)) {
             throw new \Exception("No such command '$command'", 1);
         }
@@ -33,7 +34,8 @@ class DbmlController extends BaseController {
     }
 
     public function getCommand() {
-        $this->request->addDefinition('_words_', '', false, true);
+        $this->request->addDefinition(new ArgumentDefinition('_words_', '', '', false, true));
+        $this->request->parse();
         $words = $this->request->get('_words_');
         if (!isset($words[1])) {
             $words[1] = 'help';
@@ -47,7 +49,8 @@ class DbmlController extends BaseController {
     }
 
     public function loadCommonParameters() {
-        $this->request->addDefinition('clean', '', 'no', false, 'clean output');
+        $this->request->addDefinition(new ArgumentDefinition('clean', '', true, false, false, 'clean output'));
+        $this->request->parse();
         $clean = $this->request->get('clean');
         $this->app->setParameters(array('clean' => ($clean !== 'no')));
     }

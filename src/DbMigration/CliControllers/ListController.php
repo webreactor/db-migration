@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
 class ListController extends BaseController {
 

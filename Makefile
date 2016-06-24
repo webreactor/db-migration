@@ -5,7 +5,7 @@ build: vendor
 	php build-phar.php --bin="$(BINARY)"
 
 vendor:
-	composer install --no-dev
+	composer install --no-dev --optimize-autoloader
 
 clean:
 	-rm $(BINARY)

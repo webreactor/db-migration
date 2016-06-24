@@ -1,8 +1,8 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
-use Dbml\Utilities;
+use Reactor\DbMigration\Utilities;
 
 class HelpController extends BaseController {
 
@@ -28,7 +28,7 @@ class HelpController extends BaseController {
 
     public function handle($request) {
         echo "Usage:\n";
-        echo "  dbml <command> [--option value]\n";
+        echo "  db-migration <command> [--option value]\n";
         $commands = $this->getAvaialbeCommands();
         echo "\nCommands:\n";
         foreach ($commands as $key => $value) {
@@ -46,7 +46,7 @@ class HelpController extends BaseController {
         $drivers = $this->getAvaialbeDrivers();
         foreach ($drivers as $driver_name) {
             $c_name = Utilities::strToClassName($driver_name);
-            $c_name = 'Dbml\\Drivers\\'.$c_name.'Driver';
+            $c_name = 'Reactor\\DbMigration\\Drivers\\'.$c_name.'Driver';
             $driver = new $c_name();
             $argumets = $driver->getDefaults();
             echo "\n'$driver_name' driver:\n";

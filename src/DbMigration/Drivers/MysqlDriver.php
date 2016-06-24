@@ -1,10 +1,10 @@
 <?php
 
-namespace Dbml\Drivers;
-use \Reactor\Database\PDO\Connection;
-use \Dbml\Migration;
-use \Dbml\Utilities;
+namespace Reactor\DbMigration\Drivers;
 
+use Reactor\Database\PDO\Connection;
+use Reactor\DbMigration\Migration;
+use Reactor\DbMigration\Utilities;
 
 class MysqlDriver implements DriverInterface {
 

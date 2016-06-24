@@ -1,10 +1,11 @@
 <?php
 
-use \Webreactor\CliArguments\ArgumentsParser;
+namespace Reactor\DbMigration;
+
+use Reactor\CliArguments\ArgumentsParser;
 
 include __DIR__.'/../vendor/autoload.php';
 
-$app = new \Dbml\Application();
-
-$cli = new \Dbml\CliControllers\DbmlController($app);
+$app = new Application();
+$cli = new CliControllers\AppController($app);
 $cli->handle(new ArgumentsParser($GLOBALS['argv']));

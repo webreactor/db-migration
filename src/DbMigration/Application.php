@@ -1,6 +1,6 @@
 <?php
 
-namespace Dbml;
+namespace Reactor\DbMigration;
 
 class Application {
 
@@ -32,7 +32,7 @@ class Application {
 
     /**
      * @throws \Exception
-     * @return \Dbml\Drivers\DriverInterface
+     * @return \Reactor\DbMigration\Drivers\DriverInterface
      */
     public function getTracker() {
         if (isset($this->cache['tracker'])) {
@@ -40,7 +40,7 @@ class Application {
         }
         $driver_name = $this->parameters['driver'];
         $c_name = Utilities::strToClassName($driver_name);
-        $c_name = 'Dbml\\Drivers\\'.$c_name.'Driver';
+        $c_name = 'Reactor\\DbMigration\\Drivers\\'.$c_name.'Driver';
         if(!class_exists($c_name)) {
             throw new \Exception("Unknown driver '$driver_name'");
         }

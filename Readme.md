@@ -24,10 +24,10 @@ For windows users:
 ## Start using
 * Create a folder at you repo for sql migration files
 * Name you sql files with pattern `yyyy-mm-dd-nnn[-note].sql.`
-* Create settings file `db-migration.yml` using `db-migration --init`
-* Check migrations state using `db-migration --list`
-* Load migrations using `db-migration --load`
-* If migration fails. After fix, run `db-migration --reset-locked`
+* Create settings file `db-migration.yml` using `db-migration init`
+* Check migrations state using `db-migration list`
+* Load migrations using `db-migration load`
+* If migration fails. After fix, run `db-migration reset-locked`
 
 ## Migration files
 Example:
@@ -69,7 +69,7 @@ Name for parameters at `.yml` and cli are the same.
 
 Example:
 
-`db-migration --list`
+`db-migration list`
 with `db-migration.yml` at current folder:
 ```yml
 user: $MYSQL_USERNAME
@@ -81,7 +81,7 @@ create-database: yes
 
 Same result using cli arguments:
 ```
-db-migration --list \
+db-migration list \
     --user "$MYSQL_USERNAME" \
     --password "$MYSQL_PASSWORD" \
     --database= application" \
@@ -92,15 +92,15 @@ db-migration --list \
 **If some scripts failed, migration will be locked until you reset state**\
 In case if some migration file failed
 * Check output of last `load`
-* Check what migration is failed `db-migration --list`
+* Check what migration is failed `db-migration list`
 * Fix you app and database
-* Run `db-migration --reset-locked`
-* Continue migration `db-migration --load`
+* Run `db-migration reset-locked`
+* Continue migration `db-migration load`
 
 ## Parameters
 ```
 Usage:
-  dbml <command> [--option value]
+  db-migration <command> [--option value]
 
 Commands:
   init            Create config YML file

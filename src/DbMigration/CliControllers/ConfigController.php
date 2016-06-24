@@ -1,8 +1,8 @@
 <?php
 
-namespace Dbml\CliControllers;
+namespace Reactor\DbMigration\CliControllers;
 
-use Dbml\Utilities;
+use Reactor\DbMigration\Utilities;
 
 class ConfigController extends BaseController {
 
