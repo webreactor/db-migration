@@ -9,7 +9,7 @@ class InitController extends BaseController {
         $this->loadMigrationParameters();
         $filename = 'db-migration.yml';
 
-        $source = __DIR__ . '/../../' . $filename;
+        $source = __DIR__ . '/../../../' . $filename;
         $dest   = getcwd() . '/' . $filename;
 
         if (!is_file($dest)) {
