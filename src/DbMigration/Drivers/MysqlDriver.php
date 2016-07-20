@@ -116,7 +116,13 @@ class MysqlDriver implements DriverInterface {
     }
 
     public function load($migration) {
-        Utilities::exec($this->buildCmd($this->options, $migration));
+        $report = $cmd = $this->buildCmd($this->options, $migration);
+        if (!empty($this->options['password'])) {
+            $options = $this->options;
+            $options['password'] = 'xxxxxx';
+            $report = $this->buildCmd($options, $migration);
+        }
+        Utilities::exec($cmd);
     }
 
     protected function buildCmd($options, $migration) {

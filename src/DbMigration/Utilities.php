@@ -5,12 +5,15 @@ namespace Reactor\DbMigration;
 use Symfony\Component\Yaml\Yaml;
 
 class Utilities {
-    public static function exec($cmd) {
+    public static function exec($cmd, $report = null) {
         $rez = 0;
-        echo "$cmd\n";
+        if ($report === null) {
+            $report = $cmd;
+        }
+        echo "$report\n";
         passthru($cmd, $rez);
         if ($rez != 0) {
-            throw new \Exception("Error: executing '$cmd'", 1);
+            throw new \Exception("Error: executing '$report'", 1);
         }
     }
 
