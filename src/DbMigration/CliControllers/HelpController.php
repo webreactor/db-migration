@@ -27,6 +27,7 @@ class HelpController extends BaseController {
     }
 
     public function handle($request) {
+        echo "Mysql migration loader. Version: ".$this->app->parameters['app-version']."\n\n";
         echo "Usage:\n";
         echo "  db-migration <command> [--option value]\n";
         $commands = $this->getAvaialbeCommands();
