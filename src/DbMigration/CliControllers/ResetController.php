@@ -11,7 +11,7 @@ class ResetController extends BaseController {
         $tracker = $this->app->getTracker();
         $cnt = 0;
 
-        $words = $this->request->get('_words_');
+        $words = $this->app->parameters['_words_'];
         if (!isset($words[2])) {
             throw new \Exception("Must specify migration id", 1);
         }

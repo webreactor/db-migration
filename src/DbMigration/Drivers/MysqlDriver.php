@@ -122,7 +122,7 @@ class MysqlDriver implements DriverInterface {
             $options['password'] = 'xxxxxx';
             $report = $this->buildCmd($options, $migration);
         }
-        Utilities::exec($cmd);
+        Utilities::exec($cmd, $report);
     }
 
     protected function buildCmd($options, $migration) {
