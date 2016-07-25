@@ -1,5 +1,6 @@
 # Path to migration scripts
-# migrations: db-migrations
+# migrations: 
+#   - db-migrations
 
 # Database host
 # host: localhost

@@ -41,7 +41,11 @@ class BaseController {
             if (isset($defaults[$name])) {
                 $definition[2] = $defaults[$name];
             }
-            $this->request->addDefinition(new ArgumentDefinition($name, $definition[1], $definition[2]));
+            if (!empty($definition[4])) {
+                $this->request->addDefinition(new ArgumentDefinition($name, $definition[1], $definition[2], false, true));
+            } else {
+                $this->request->addDefinition(new ArgumentDefinition($name, $definition[1], $definition[2], false, false));
+            }
         }
         $this->request->parse();
         return array_merge($defaults, $this->request->getAll());
@@ -67,16 +71,11 @@ class BaseController {
         $this->app->setParameters($parameters);
 
         $base_config = array(
-            array('migrations', 'm', 'db-migrations'),
-            array('driver', 'r', 'mysql'),
+            array('migrations', 'm', 'db-migrations', "Path to migration scripts", true),
+            array('driver', 'r', 'mysql', "Database driver"),
         );
 
         $parameters = $this->getCliArguments($base_config, $parameters);
-        if (!is_array($parameters['migrations'])) {
-            $paths = $parameters['migrations'];
-            $paths = explode(':', $paths);
-            $parameters['migrations'] = array_map('trim', $paths);
-        }
         $this->app->setParameters($parameters);
 
         $tracker_defaults = $this->app->getTrackerDefaults();

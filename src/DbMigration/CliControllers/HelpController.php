@@ -41,7 +41,7 @@ class HelpController extends BaseController {
         echo "-----------------------------------------------------\n";
         echo "  --clean                    no                 (yes|no) Clean output, no headers\n";
         echo "  --config           -f      db-migration.yml   Path to config YML file. Default  at current folder\n";
-        echo "  --migrations       -m      migrations         Path to migration scripts\n";
+        echo "  --migrations       -m      migrations         Path to migration scripts, repeatable option\n";
         echo "  --driver           -r      mysql              Database driver\n";
 
         $drivers = $this->getAvaialbeDrivers();
