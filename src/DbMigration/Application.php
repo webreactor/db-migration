@@ -8,7 +8,7 @@ class Application {
     public $parameters = array();
 
     public function __construct() {
-        $this->parameters['app-version'] = '1.0.3';
+        $this->parameters['app-version'] = '1.1.0';
     }
 
     public function setParameters($parameters) {
@@ -48,7 +48,7 @@ class Application {
         return $this->cache['tracker'];
     }
 
-    public function getAllMigrations($limit = null) {
+    public function getTrackedMigrations($limit = null) {
         if (0 === $limit) {
             return array();
         }

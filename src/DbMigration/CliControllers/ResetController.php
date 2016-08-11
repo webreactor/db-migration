@@ -7,7 +7,7 @@ class ResetController extends BaseController {
     public function handle($request) {
         parent::handle($request);
         $this->initTracker();
-        $mirations = $this->app->getAllMigrations();
+        $mirations = $this->app->getTrackedMigrations();
         $tracker = $this->app->getTracker();
         $cnt = 0;
 

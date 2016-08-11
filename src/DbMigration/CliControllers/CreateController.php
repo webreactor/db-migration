@@ -5,6 +5,7 @@ namespace Reactor\DbMigration\CliControllers;
 class CreateController extends BaseController {
     public function handle($request) {
         parent::handle($request);
+        $this->initTracker();
         $date   = date('Y-m-d');
         $number = 1;
 
@@ -51,8 +52,7 @@ class CreateController extends BaseController {
         $this->loadMigrationParameters();
 
         $migrations =
-            $this->app->getMigrations()
-                ->getList();
+            $this->app->getTrackedMigrations();
 
         $last_migration = end($migrations);
 

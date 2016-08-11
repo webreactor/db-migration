@@ -14,7 +14,7 @@ class ListController extends BaseController {
             $limit = $words[2];
         }
 
-        $migrations = $this->app->getAllMigrations($limit);
+        $migrations = $this->app->getTrackedMigrations($limit);
 
         foreach ($migrations as $migration) {
             $this->printMigration($migration);

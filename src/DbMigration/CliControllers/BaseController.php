@@ -117,6 +117,7 @@ class BaseController {
         if (!empty($parameters['password'])) {
             $parameters['password'] = 'xxxxxx';
         }
+        unset($parameters['_words_']);
         echo Utilities::dumpYAML($parameters, 10, 2);
         echo "\n";
     }

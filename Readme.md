@@ -105,12 +105,12 @@ Usage:
 Commands:
   init            Create config YML file
   load            Load new migrations
-  list            List all loaded and new migration files
-  list {limit}    List last {limit} loaded and new migration files
+  list            List of migrations
   new             List of new migrations
-  create {name}   Create new empty migration file
-  reset {id}      Reset migration state
-  reset-locks     Reset all migration with state no new or migrated
+  create [<name>] Create empty migration file
+  reset <id>      Reset migration state
+  reset-locks     Reset all locked migrations
+  all-migrated    Mark all migrations as migrated
   config          Show current config
   help            Show help
 
@@ -119,7 +119,7 @@ Options:
 -----------------------------------------------------
   --clean                    no                 (yes|no) Clean output, no headers
   --config           -f      db-migration.yml   Path to config YML file. Default  at current folder
-  --migrations       -m      migrations         Path to migration scripts
+  --migrations       -m      migrations         Path to migration scripts, repeatable option
   --driver           -r      mysql              Database driver
 
 'mysql' driver:

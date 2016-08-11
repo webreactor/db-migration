@@ -2,7 +2,7 @@
 
 namespace Reactor\DbMigration\CliControllers;
 
-class ResetLocksController extends BaseController {
+class AllMigratedController extends BaseController {
 
     public function handle($request) {
         parent::handle($request);
@@ -11,12 +11,15 @@ class ResetLocksController extends BaseController {
         $tracker = $this->app->getTracker();
         $cnt = 0;
         foreach ($migrations as $migration) {
-            if (!in_array($migration->status,array('new', 'migrated'))) {
-                $this->printMigration($migration);
-                $tracker->delete($migration);
-                $cnt++;
+            $this->printMigration($migration);
+            if ($migration->status == 'new') {
+                $tracker->register($migration);
+                $tracker->setStatus($migration, 'migrated');
+                echo "Marked as migrated\n";
             }
+            $cnt++;
         }
-        echo "All unlocked\n";
+        echo "All migrated\n";
     }
+
 }

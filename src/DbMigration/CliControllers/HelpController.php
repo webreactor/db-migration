@@ -10,16 +10,17 @@ class HelpController extends BaseController {
         return array(
             'init'          => 'Create config YML file',
             'load'          => 'Load new migrations',
-            'list'          => 'List all loaded and new migration files',
-            'list {limit}'  => 'List last {limit} loaded and new migration files',
+            'list'          => 'List of migrations',
             'new'           => 'List of new migrations',
-            'create {name}' => 'Create new empty migration file',
-            'reset {id}'    => 'Reset migration state',
-            'reset-locks'   => 'Reset all migration with state no new or migrated',
+            'create [<name>]' => 'Create empty migration file',
+            'reset <id>'    => 'Reset migration state',
+            'reset-locks'   => 'Reset all locked migrations',
+            'all-migrated'  => 'Mark all migrations as migrated',
             'config'        => 'Show current config',
             'help'          => 'Show help',
         );
     }
+
     public function getAvaialbeDrivers() {
         return array(
             'mysql',
