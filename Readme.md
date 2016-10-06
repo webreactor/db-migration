@@ -5,7 +5,7 @@ Database Migration Scripts Loader
 
 Use precompiled:
 ```bash
-curl -O https://github.com/webreactor/db-migration/releases/download/1.1.0/db-migration
+curl -O -L https://github.com/webreactor/db-migration/releases/download/1.1.0/db-migration
 chmod a+x db-migration
 mv db-migration /usr/local/bin/
 ```
