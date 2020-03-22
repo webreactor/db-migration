@@ -13,6 +13,7 @@ Or build:
 ```bash
 git clone https://github.com/webreactor/db-migration.git
 cd db-migration
+make build
 make install
 ```
 
