@@ -28,7 +28,7 @@ For windows users:
 * Create settings file `db-migration.yml` using `db-migration init`
 * Check migrations state using `db-migration list`
 * Load migrations using `db-migration load`
-* If migration fails. After fix, run `db-migration reset-locked`
+* If migration fails. After fix, run `db-migration reset-locks`
 
 ## Migration files
 Example:
@@ -95,7 +95,7 @@ In case if some migration file failed
 * Check output of last `load`
 * Check what migration is failed `db-migration list`
 * Fix you app and database
-* Run `db-migration reset-locked`
+* Run `db-migration reset-locks`
 * Continue migration `db-migration load`
 
 ## Parameters
